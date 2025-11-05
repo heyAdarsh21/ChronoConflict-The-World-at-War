@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WW2 Timeline – Blackboard</title>
+
+  <link
+    href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css"
+    rel="stylesheet"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Schoolbell&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="timeline.css">
+</head>
+<body>
+  <div class="frame">
+    
+    <nav class="timeline-nav">
+        <ul>
+          <li><a href="front.html">Home</a></li>
+          <li><a href="history.html" class="active">History</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="yearbyyear.html">Year by Year</a></li>
+          <li><a href="warcrime.html">War Crimes</a></li>
+        </ul>
+    </nav>
+    <div class="grain"></div>
+          
+    <div id="timeline"></div>
+  </div>
+    <div class="pillar left-pillar"></div>
+    <div class="pillar right-pillar"></div>
+
+  <script src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
+  <script>
+    const container = document.getElementById('timeline');
+    const items = new vis.DataSet([
+      { id: 1, content: 'Germany Invades Poland', start: '1939-09-01' },
+      { id: 2, content: 'Battle of Britain', start: '1940-07-10', end: '1940-10-31' },
+      { id: 3, content: 'Pearl Harbor', start: '1941-12-07' },
+      { id: 4, content: 'D‑Day Landing', start: '1944-06-06' },
+      { id: 5, content: 'VE Day', start: '1945-05-08' },
+      { id: 6, content: 'Hiroshima', start: '1945-08-06' },
+      { id: 7, content: 'WW2 Ends', start: '1945-09-02' },
+    ]);
+    const options = {
+      stack: false,
+      zoomable: true,
+      moveable: true,
+      orientation: 'bottom',
+      horizontalScroll: true,
+      zoomKey: 'ctrlKey'
+    };
+    new vis.Timeline(container, items, options);
+  </script>
+</body>
+</html>
