@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoConflict - The World at War</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="front.css">
+</head>
+<body>
+    <header>
+        <h1 class="glitch text-center">ChronoConflict: WORLD AT WAR 2</h1>
+        <nav>
+            <ul>
+                <li><a href="front.html">Home</a></li>
+                <li><a href="history.html">History</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="timeline.html">Timeline</a></li>
+                <li><a href="warcrime.html">War Against Humanity</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="content">
+        <div class="article-container">
+            <h2 id="article-heading">Welcome To The War !</h2>
+            <div id="article-text"></div>
+            <div id="article-photo"></div>
+        </div>
+
+        <div class="war-personalities">
+            <img src="roosevelt.jpg" alt="War Personality" id="personality-photo">
+            <div id="personality-box">
+                <h3>War Personalities</h3>
+                <p>Franklin D. Roosevelt</p>
+                <p1>Franklin Delano Roosevelt (January 30, 1882 – April 12, 1945), also known as FDR, was the 32nd president of the United States, serving from 1933 until his death in 1945. He is the longest-serving U.S. president, and the only one to have served more than two terms. His initial two terms were centered on combating the Great Depression, while his third and fourth saw him shift his focus to America's involvement in World War II.</p1>
+            </div>
+        </div>
+    </section>
+    
+    <div class="map-container">
+        <img id="war-map" src="" alt="WW2 Progress">
+        <div class="controls">
+            <button id="pause-btn">Pause</button>
+            <button id="resume-btn">Resume</button>
+        </div>
+    </div>
+
+    <div class="newspaper">
+        <h1>WAR RAGES ON: THE BATTLE OF STALINGRAD</h1>
+        <p>Stalingrad, 1942 — The German 6th Army has launched a massive offensive...</p>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="front.js"></script>
+    <script>
+        function loadHistoryContent() {
+            fetch('history.txt')
+                .then(response => response.text())
+                .then(data => {
+                    let formattedText = data.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+                    formattedText = formattedText.replace(/## (.*?)/g, '<h2>$1</h2>');
+                    formattedText = formattedText.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+
+                    document.getElementById("article-text").innerHTML = `<p>${formattedText}</p>`;
+                })
+                .catch(error => console.error("Error loading history:", error));
+        }
+
+        window.onload = loadHistoryContent;
+    </script>
+    <p id="war-report" class="typewriter"></p>
+
+    <script>
+        let text = "URGENT: German forces advance into Stalingrad, heavy resistance expected.";
+        let i = 0;
+    
+        function typeEffect() {
+            if (i < text.length) {
+                document.getElementById("war-report").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeEffect, 50);
+            }
+        }
+        
+        window.onload = typeEffect;
+    </script>
+    
+</body>
+</html>
