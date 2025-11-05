@@ -1,0 +1,230 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: radial-gradient(circle at center, #000 100%); */
+  /* font-family: 'Gloria Hallelujah', cursive; */
+  background: var(--board-dark);
+  font-family: var(--font-chalk);
+  color: var(--chalk-white);
+  overflow: hidden;
+}
+.frame {
+  position: relative;
+  /*width: 85vw;
+  height: 60vh;
+  border: 25px solid #81580298;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 30px rgba(72, 92, 37, 0.8),
+    0 0 20px rgba(228, 15, 15, 0.5);
+  overflow: hidden;*/
+  width: 90vw; height: 65vh;
+  border: 25px solid var(--wood-brown);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 30px var(--frame-shadow),
+    0 0 20px var(--frame-shadow);
+  overflow: hidden;
+}
+
+.frame::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  background: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mix-blend-mode: overlay;
+}
+
+.frame .grain {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  /*background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>\
+  <filter id='noise'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter>\
+  <rect width='100%' height='100%' filter='url(%23noise)' />\
+</svg>");*/
+  background-repeat: repeat;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+}
+
+.frame::before {
+  content: "";
+  position: absolute; top:0; width:100%; height:100%;
+  background:
+    repeating-linear-gradient(0deg, rgba(165, 29, 29, 0.03) 0, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 6px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 6px),
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.04) 2px, transparent 2px);
+  /* background-size: 100% 6px, 6px 100%, 25px 25px, 60px 60px; */
+  background-size: 100% 6px, 6px 100%;
+  pointer-events: none;
+}
+
+.timeline-nav {
+  padding: 10px 0; width:100%; text-align:center; z-index: 2;
+}
+.timeline-nav ul {
+  list-style:none; margin:0; padding:0;
+}
+.timeline-nav li {
+  display:inline-block; margin:0 15px;
+}
+.timeline-nav a {
+  color: var(--chalk-white);
+  text-decoration:none;
+  font-family: var(--font-chalk);
+  font-size: var(--nav-font-size);
+  text-shadow: 1px 1px 2px #000;
+  border-bottom: 2px solid transparent;
+}
+.timeline-nav a:hover,
+.timeline-nav a.active {
+  border-bottom: 2px dashed var(--chalk-white);
+}
+
+#timeline {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  border: 4px dashed rgb(255, 255, 255);
+  border-radius: 6px;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-size: var(--heading-font-size);
+  text-align: center;
+  margin: 20px 0 0;
+  text-shadow: 1px 1px 2px #000;
+  color: var(--chalk-white);
+}
+
+.vis-item,
+/*.vis-item .vis-item-content {
+  background: none !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 1.2rem;
+  font-family: 'Schoolbell', cursive !important;
+  text-shadow: 2px 2px 4px #000;
+}*/
+
+.vis-item .vis-item-content {
+  background: none !important;
+  border: none !important;
+  color: var(--chalk-white) !important;
+  font-size: var(--item-font-size);
+  font-family: var(--font-chalk) !important;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/*.vis-time-axis .vis-text {
+  color: #eee !important;
+  font-size: 1rem;
+  font-family: 'Schoolbell', cursive !important;
+  text-shadow: 2px 2px 4px #000;
+}*/
+
+.vis-time-axis .vis-text {
+  color: var(--chalk-gray) !important;
+  font-size: var(--axis-font-size);
+  font-family: var(--font-chalk) !important;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/*.vis-item.vis-range {
+  background-color: rgba(180, 131, 9, 0) !important;
+  border: 2px dashed #fff !important;
+}*/
+
+.vis-item.vis-range {
+  background-color: rgba(255,255,255,0.12) !important;
+  border: 2px dashed var(--chalk-white) !important;
+}
+
+/* .frame::after {
+  content: "✎   ✎";
+  position: absolute;
+  bottom: 10px; right: 20px;
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.5);
+  transform: rotate(-25deg);
+  pointer-events: none;
+} */
+
+.frame::after {
+  content: "✎ ✎";
+  position: absolute; bottom:10px; right:20px;
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.5);
+  transform: rotate(-25deg);
+  pointer-events: none;
+}
+
+.board-wrap{
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+
+}
+
+.pillar {
+  position: absolute;
+  bottom: -0.0000010px;
+  width: 20px;
+  height: 100px;
+  background-color: #3f1d05d8;
+  transform-origin: bottom;
+  z-index: 1;
+  box-shadow: inset 5px 0 10px rgba(255,255,255,0.1), inset -5px 0 10px rgba(0,0,0,0.2);
+}
+
+:root {
+  --board-border: #81580298;
+  --pillar-color: #3f1d05d8;
+  --pillar-angle: 10deg;
+  --pillar-height: 100px;
+  --font-chalk: 'Schoolbell', cursive;
+  --font-heading: 'Gloria Hallelujah', cursive;
+
+  --chalk-white: #f4f4f4;
+  --chalk-gray:  #ddd;
+  --board-dark:  #1a1a1a;
+  --wood-brown:  #5a321b;
+  --frame-shadow: rgba(0,0,0,0.7);
+
+  --nav-font-size: 1.2rem;
+  --item-font-size:1.2rem;
+  --axis-font-size:1rem;
+  --heading-font-size:2.5rem;
+}
+
+.pillar:hover {
+  animation: wiggle 0.3s ease-in-out alternate;
+}
+@keyframes wiggle {
+  to { transform: rotate(calc(var(--pillar-angle) + 2deg)); }
+}
+
+
+.left-pillar {
+  left: 400px;
+  transform: rotate(10deg);
+}
+
+.right-pillar {
+  right: 400px;
+  transform: rotate(-10deg);
+}
