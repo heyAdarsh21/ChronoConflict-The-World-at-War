@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Strategy Simulation - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="simulation-container">
+    <div class="simulation-header">
+        <h1>STRATEGY SIMULATION MODE</h1>
+        <p>Make strategic decisions and see alternate outcomes</p>
+    </div>
+    
+    <div class="simulation-grid">
+        <!-- Scenario Setup -->
+        <div class="simulation-panel">
+            <div class="panel-header">
+                <h3>SCENARIO SETUP</h3>
+            </div>
+            <div class="panel-content">
+                <form id="scenario-form" class="simulation-form">
+                    <div class="form-group">
+                        <label>SCENARIO NAME</label>
+                        <input type="text" id="scenario-name" class="form-input" value="Operation Alpha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>START YEAR</label>
+                        <select id="start-year" class="form-input">
+                            <option value="1939">1939</option>
+                            <option value="1940">1940</option>
+                            <option value="1941" selected>1941</option>
+                            <option value="1942">1942</option>
+                            <option value="1943">1943</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>SIDE</label>
+                        <select id="side" class="form-input">
+                            <option value="allies">Allies</option>
+                            <option value="axis">Axis</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-military btn-primary">START SIMULATION</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Decision Panel -->
+        <div class="simulation-panel" id="decision-panel" style="display: none;">
+            <div class="panel-header">
+                <h3>STRATEGIC DECISIONS</h3>
+            </div>
+            <div class="panel-content">
+                <div class="decision-types">
+                    <button class="btn-military btn-secondary" onclick="showDecisionForm('resource_allocation')">
+                        RESOURCE ALLOCATION
+                    </button>
+                    <button class="btn-military btn-secondary" onclick="showDecisionForm('espionage')">
+                        ESPIONAGE
+                    </button>
+                    <button class="btn-military btn-secondary" onclick="showDecisionForm('military_action')">
+                        MILITARY ACTION
+                    </button>
+                    <button class="btn-military btn-secondary" onclick="showDecisionForm('diplomacy')">
+                        DIPLOMACY
+                    </button>
+                </div>
+                
+                <div id="decision-form-container"></div>
+            </div>
+        </div>
+        
+        <!-- Outcome Display -->
+        <div class="simulation-panel panel-large">
+            <div class="panel-header">
+                <h3>SIMULATION OUTCOMES</h3>
+            </div>
+            <div class="panel-content">
+                <div id="outcome-display" class="outcome-container">
+                    <p class="info-text">Start a simulation to begin making decisions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+{% endblock %}
+

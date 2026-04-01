@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}WW2 Intelligence Operations - Landing{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <div class="landing-overlay">
+        <div class="landing-content">
+            <div class="landing-logo">
+                <h1 class="logo-main">INTELLIGENCE</h1>
+                <h2 class="logo-sub">OPERATIONS</h2>
+                <div class="logo-divider"></div>
+                <p class="logo-year">1939 - 1945</p>
+            </div>
+            
+            <div class="landing-description">
+                <p class="typewriter-text">CLASSIFIED: Strategic Intelligence Dashboard</p>
+                <p class="typewriter-text">Access restricted to authorized personnel only</p>
+            </div>
+            
+            <div class="landing-actions">
+                <a href="{{ url_for('auth.login') }}" class="btn-military btn-primary">ACCESS CLASSIFIED</a>
+                <a href="{{ url_for('auth.register') }}" class="btn-military btn-secondary">REQUEST CLEARANCE</a>
+            </div>
+            
+            <div class="landing-footer">
+                <p>TOP SECRET // NOFORN // REL TO USA, GBR, FRA, USSR</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="radar-sweep"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Typewriter effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const texts = document.querySelectorAll('.typewriter-text');
+        texts.forEach((text, index) => {
+            setTimeout(() => {
+                text.style.opacity = '1';
+                text.style.animation = 'typewriter 2s steps(40) forwards';
+            }, index * 1000);
+        });
+    });
+</script>
+{% endblock %}
+

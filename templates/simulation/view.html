@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}View Simulation - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="simulation-container">
+    <div class="simulation-header">
+        <h1>SIMULATION: {{ simulation.scenario_name }}</h1>
+        <p>Started: {{ simulation.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+    
+    <div class="simulation-grid">
+        <div class="simulation-panel panel-large">
+            <div class="panel-header">
+                <h3>SIMULATION DETAILS</h3>
+            </div>
+            <div class="panel-content">
+                <div class="stat-item">
+                    <span class="stat-label">SCENARIO</span>
+                    <span class="stat-value">{{ simulation.scenario_name }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">START YEAR</span>
+                    <span class="stat-value">{{ simulation.start_year }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">SIDE</span>
+                    <span class="stat-value">{{ simulation.side.upper() }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">STATUS</span>
+                    <span class="stat-value">{{ 'COMPLETED' if simulation.completed else 'IN PROGRESS' }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="simulation-panel panel-large">
+            <div class="panel-header">
+                <h3>DECISIONS & OUTCOMES</h3>
+            </div>
+            <div class="panel-content">
+                {% if simulation.decisions %}
+                    <div id="decisions-display" class="outcome-container">
+                        <!-- Decisions will be displayed here -->
+                    </div>
+                {% else %}
+                    <div class="info-text">No decisions made yet</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center">
+        <a href="{{ url_for('simulation.index') }}" class="btn-military btn-secondary">RETURN TO SIMULATION</a>
+    </div>
+</div>
+
+<script>
+    // Parse and display decisions
+    {% if simulation.decisions %}
+    const decisions = {{ simulation.decisions|safe }};
+    const container = document.getElementById('decisions-display');
+    
+    decisions.forEach(decision => {
+        const outcomeClass = decision.outcome.success ? 'outcome-success' : 'outcome-failure';
+        const div = document.createElement('div');
+        div.className = `outcome-item ${outcomeClass}`;
+        div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem">
+                <strong>${decision.type.toUpperCase().replace('_', ' ')}</strong>
+                <span style="font-size: 0.85rem; color: #999">${new Date(decision.timestamp).toLocaleString()}</span>
+            </div>
+            <div style="margin-bottom: 0.5rem">${decision.outcome.message}</div>
+        `;
+        container.appendChild(div);
+    });
+    {% endif %}
+</script>
+{% endblock %}
+

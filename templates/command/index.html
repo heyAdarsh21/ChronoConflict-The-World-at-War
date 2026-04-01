@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Command & Leadership - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="command-container">
+    <div class="command-header">
+        <h1>COMMAND &amp; LEADERSHIP DOSSIER</h1>
+        <p class="command-subtitle">Profiles of political leaders, generals, and strategists directing the war effort.</p>
+    </div>
+
+    <div class="command-layout">
+        <aside class="command-sidebar">
+            <div class="sidebar-section">
+                <h3>Filter by Nation</h3>
+                <div class="nation-list" id="nation-filter">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Role</h3>
+                <div class="role-list">
+                    <button class="filter-chip" data-role="">All</button>
+                    <button class="filter-chip" data-role="political">Political</button>
+                    <button class="filter-chip" data-role="military">Military</button>
+                    <button class="filter-chip" data-role="diplomatic">Diplomatic</button>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Search</h3>
+                <div class="search-field">
+                    <input type="text" id="leader-search" placeholder="Search dossier" />
+                </div>
+            </div>
+            <div class="sidebar-section dossier-note">
+                <p>Hover a portrait to reveal wartime quotes. Select a dossier to open the full command briefings.</p>
+            </div>
+        </aside>
+
+        <section class="command-grid" id="leader-grid">
+            <div class="loading">COMPILING DOSSIERS...</div>
+        </section>
+
+        <aside class="command-detail" id="leader-detail">
+            <div class="detail-placeholder">
+                <p class="info-text">Select a dossier to view leadership biography, ideological stance, and operational record.</p>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/command.js') }}"></script>
+{% endblock %}
+

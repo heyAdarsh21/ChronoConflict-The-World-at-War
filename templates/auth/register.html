@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Register - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-header">
+            <h2>REQUEST CLEARANCE</h2>
+            <p>Register for intelligence access</p>
+        </div>
+        
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label>USERNAME</label>
+                <input type="text" name="username" required class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label>EMAIL</label>
+                <input type="email" name="email" required class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label>PASSWORD</label>
+                <input type="password" name="password" required class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label>ROLE</label>
+                <select name="role" class="form-input">
+                    <option value="historian">Historian (Data Analysis)</option>
+                    <option value="commander">Commander (Simulation Mode)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-military btn-primary">SUBMIT REQUEST</button>
+        </form>
+        
+        <div class="auth-footer">
+            <a href="{{ url_for('auth.login') }}">Already have clearance?</a>
+            <a href="{{ url_for('index') }}">Return to base</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

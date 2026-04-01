@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Historical Timeline - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="timeline-container">
+    <div class="timeline-header">
+        <h1>HISTORICAL TIMELINE</h1>
+        <div class="timeline-controls">
+            <label>YEAR RANGE:</label>
+            <select id="start-year" class="form-input">
+                <option value="1939">1939</option>
+                <option value="1940">1940</option>
+                <option value="1941">1941</option>
+                <option value="1942">1942</option>
+                <option value="1943">1943</option>
+                <option value="1944">1944</option>
+                <option value="1945">1945</option>
+            </select>
+            <span>TO</span>
+            <select id="end-year" class="form-input">
+                <option value="1939">1939</option>
+                <option value="1940">1940</option>
+                <option value="1941">1941</option>
+                <option value="1942">1942</option>
+                <option value="1943">1943</option>
+                <option value="1944">1944</option>
+                <option value="1945" selected>1945</option>
+            </select>
+            <button class="btn-military btn-primary" onclick="loadTimeline()">LOAD EVENTS</button>
+        </div>
+    </div>
+    
+    <div class="timeline-content">
+        <div class="timeline-line"></div>
+        <div id="timeline-events" class="timeline-events">
+            <div class="loading">LOADING TIMELINE DATA...</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+{% endblock %}
+

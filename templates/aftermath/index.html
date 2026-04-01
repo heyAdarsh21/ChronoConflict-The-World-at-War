@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Aftermath & Civilians - WW2 Intel Ops{% endblock %}
+
+{% block content %}
+<div class="aftermath-container">
+    <div class="aftermath-header">
+        <h1>AFTERMATH // WAR CRIMES & CIVILIAN COST</h1>
+        <p>Documented atrocities, strategic bombings, and human toll. Data curated for archival integrity.</p>
+    </div>
+
+    <div class="aftermath-controls">
+        <div class="timeline-filter">
+            <label>Period</label>
+            <div class="period-buttons">
+                <button class="period-chip" data-range="1939-1941">1939–41</button>
+                <button class="period-chip" data-range="1942-1943">1942–43</button>
+                <button class="period-chip" data-range="1944-1945">1944–45</button>
+                <button class="period-chip" data-range="">Full War</button>
+            </div>
+        </div>
+        <div class="category-filter">
+            <label>Category</label>
+            <div class="category-chips" id="category-chips"></div>
+        </div>
+        <div class="region-filter">
+            <label>Region</label>
+            <select id="region-select">
+                <option value="">All theatres</option>
+                <option value="Europe">Europe</option>
+                <option value="Asia">Asia</option>
+                <option value="Pacific">Pacific</option>
+                <option value="Africa">Africa</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="aftermath-feed" id="aftermath-feed">
+        <div class="loading">PULLING ARCHIVAL EVIDENCE...</div>
+    </div>
+</div>
+
+<div class="dossier-modal" id="aftermath-modal" aria-hidden="true">
+    <div class="modal-overlay" data-close-modal></div>
+    <div class="modal-content">
+        <button class="modal-close" data-close-modal>&times;</button>
+        <div class="modal-body" id="modal-body">
+            <!-- Filled dynamically -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/aftermath.js') }}"></script>
+{% endblock %}
+
