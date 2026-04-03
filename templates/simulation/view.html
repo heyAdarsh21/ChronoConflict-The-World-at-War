@@ -58,7 +58,7 @@
 <script>
     // Parse and display decisions
     {% if simulation.decisions %}
-    const decisions = {{ simulation.decisions|safe }};
+    const decisions = {{ simulation.decisions_json|safe }};
     const container = document.getElementById('decisions-display');
     
     decisions.forEach(decision => {

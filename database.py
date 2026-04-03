@@ -1,8 +1,3 @@
-"""
-Database configuration
-"""
+from src.ww2ops.extensions import db
 
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
+__all__ = ["db"]

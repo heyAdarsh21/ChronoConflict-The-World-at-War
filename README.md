@@ -1,241 +1,101 @@
-# WW2 Intelligence Operations Simulator
+# ChronoConflict
 
-A comprehensive web application simulating World War 2 intelligence, strategy, and wartime decision-making between Axis and Allied powers. Features interactive data visualization, narrative interactivity, and historical accuracy with a dystopian military UI inspired by 1940s command centers.
+ChronoConflict is now structured as a backend-driven WWII intelligence and strategic simulation platform. The frontend visual identity remains intact, while the backend is reorganized into modular services, PostgreSQL-oriented domain models, deterministic simulation processing, migration scaffolding, and seedable historical reference data.
 
-## Features
+## Architecture
 
-### 🎯 Core Functionality
+- `app.py`: lightweight entrypoint using the Flask app factory.
+- `src/ww2ops/__init__.py`: application bootstrap, extension wiring, blueprint registration.
+- `src/ww2ops/auth/`: authentication routes and session endpoints.
+- `src/ww2ops/analytics/`: dashboard-facing data APIs and analytics overview.
+- `src/ww2ops/simulation/`: simulation APIs and simulation detail page.
+- `src/ww2ops/command/`: leadership dossier APIs.
+- `src/ww2ops/intelligence/`: aftermath and war-crimes archival APIs.
+- `src/ww2ops/timeline/`: historical timeline APIs.
+- `src/ww2ops/services/`: business logic, seed pipeline, and deterministic simulation engine.
+- `src/ww2ops/repositories/`: persistence-facing query helpers.
+- `src/ww2ops/db/models.py`: normalized relational schema with JSONB-ready columns.
+- `migrations/`: Alembic environment and initial schema migration.
+- `tests/`: simulation and API coverage.
 
-- **War Dashboard**: Interactive command center with global map visualization, resource meters, and intelligence feed
-- **Historical Timeline**: Chronological viewer of battles and operations (1939-1945)
-- **Strategy Simulation**: Make strategic decisions as Axis or Allies and see alternate outcomes
-- **Database Analytics**: Store and visualize WW2 data including battles, operations, resources, and territories
-- **User System**: Login/register system for saving simulation progress
+## Frontend Contract Map
 
-### 🎨 Design
+The existing UI is preserved and expects the following routes and JSON payloads:
 
-- **Dystopian Military Theme**: Black, army green, steel gray color palette
-- **CRT Terminal Aesthetics**: Scanlines, noise effects, typewriter animations
-- **Interactive Maps**: Leaflet.js integration for battlefront visualization
-- **Real-time Updates**: Live intelligence feed and resource monitoring
+- `GET /dashboard/`: renders the command dashboard template.
+- `GET /dashboard/api/resources`: nation resource payload keyed by nation name.
+- `GET /dashboard/api/territories`: map markers for regions and control.
+- `GET /dashboard/api/intelligence`: recent intelligence feed entries.
+- `GET /dashboard/api/battles`: battle markers and casualty summaries.
+- `GET /timeline/` and `GET /timeline/api/events`: chronological battle and operation data.
+- `GET /simulation/`, `POST /simulation/start`, `POST /simulation/decision`, `GET /simulation/<id>`.
+- `GET /command/`, `GET /command/api/leaders`, `GET /command/api/leaders/<id>`.
+- `GET /aftermath/`, `GET /aftermath/api/events`.
+- `GET /api/stats`: headline dashboard totals.
 
-## Technology Stack
+Additional backend-oriented endpoints now exist without changing the UI:
 
-### Backend
-- **Flask**: Python web framework
-- **SQLAlchemy**: ORM for database management
-- **SQLite**: Database (can be upgraded to PostgreSQL/MySQL)
+- `GET /auth/session`
+- `GET /analytics/overview`
 
-### Frontend
-- **HTML5/CSS3/JavaScript**: Core web technologies
-- **Leaflet.js**: Interactive map visualization
-- **Chart.js**: Data visualization (ready for integration)
-- **Custom CSS**: Military-themed styling with CRT effects
+## Data Model Summary
 
-## Installation
+Core relational entities implemented:
 
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
+- `users`
+- `alliances`
+- `nations`
+- `geographic_regions`
+- `leaders`
+- `campaigns`
+- `battles`
+- `operations`
+- `command_assignments`
+- `resource_types`
+- `resource_snapshots`
+- `resource_balances`
+- `intelligence_reports`
+- `war_events`
+- `war_crimes`
+- `timeline_entries`
+- `simulations`
+- `simulation_decisions`
+- `simulation_outcomes`
+- `simulation_audit_events`
+- `import_batches`
 
-### Setup Steps
+PostgreSQL-specific design choices include JSONB-capable columns, timestamp indexes, simulation-centric lookup indexes, and region coordinate indexes. The migration skeleton is included under `migrations/versions/0001_initial.py`.
 
-1. **Clone or navigate to the project directory**
-   ```bash
-   cd "WWII Cursor"
-   ```
+## Simulation Engine
 
-2. **Create a virtual environment (recommended)**
-   ```bash
-   python -m venv venv
-   
-   # On Windows:
-   venv\Scripts\activate
-   
-   # On Linux/Mac:
-   source venv/bin/activate
-   ```
+The new simulation path is deterministic by seed and stores a decision audit trail:
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+1. A simulation session is created with a reproducible seed.
+2. Each decision is persisted in `simulation_decisions`.
+3. The engine applies weighted factors across resources, leadership, morale, and intelligence.
+4. A bounded Monte Carlo estimate supplements the weighted score.
+5. Outcome, impact payload, and narrative summary are persisted in `simulation_outcomes`.
+6. A corresponding audit record and timeline entry are written for traceability.
 
-4. **Initialize the database**
-   ```bash
-   python app.py
-   ```
-   The database will be automatically created and seeded with initial data on first run.
+## Environment Setup
 
-5. **Run the application**
-   ```bash
-   python app.py
-   ```
+1. Create and activate a virtual environment.
+2. Install dependencies with `pip install -r requirements.txt`.
+3. Copy `.env.example` to `.env` and update values.
+4. Create PostgreSQL database `chrono_conflict`.
+5. Run migrations with `flask db upgrade` or standard Alembic commands.
+6. Seed reference data with `flask seed-reference-data` if the database is empty.
+7. Start the server with `python app.py`.
 
-6. **Access the application**
-   Open your browser and navigate to: `http://localhost:5000`
+## Testing
 
-## Usage
+- Unit test: `tests/test_simulation_engine.py`
+- Integration-style API test scaffold: `tests/test_api.py`
 
-### Getting Started
+Run with `pytest` after installing dependencies.
 
-1. **Landing Page**: Start at the main page with cinematic introduction
-2. **Register/Login**: Create an account or login to access the dashboard
-3. **Dashboard**: View the global war map, resource intelligence, and live intelligence feed
-4. **Timeline**: Explore historical events by year range (1939-1945)
-5. **Simulation**: Start a strategy simulation and make decisions to see alternate outcomes
+## Notes
 
-### User Roles
-
-- **Historian**: Focus on data analysis and historical exploration
-- **Commander**: Full access to simulation mode for strategic decision-making
-
-### Simulation Mode
-
-1. Create a scenario with a name, start year, and side (Axis/Allies)
-2. Make strategic decisions:
-   - **Resource Allocation**: Allocate oil, steel, or manpower
-   - **Espionage**: Launch intelligence missions
-   - **Military Action**: Execute offensive or defensive operations
-   - **Diplomacy**: Negotiate treaties or form alliances
-3. View outcomes and track your decisions
-
-## Project Structure
-
-```
-WWII Cursor/
-├── app.py                 # Main Flask application
-├── models.py              # Database models
-├── seed_data.py           # Database seeding script
-├── requirements.txt       # Python dependencies
-├── routes/                # Route blueprints
-│   ├── __init__.py
-│   ├── auth.py            # Authentication routes
-│   ├── dashboard.py       # Dashboard routes
-│   ├── timeline.py        # Timeline routes
-│   ├── simulation.py      # Simulation routes
-│   └── api.py             # API endpoints
-├── templates/             # Jinja2 templates
-│   ├── base.html          # Base template
-│   ├── index.html         # Landing page
-│   ├── auth/              # Authentication templates
-│   ├── dashboard/         # Dashboard templates
-│   ├── timeline/          # Timeline templates
-│   └── simulation/        # Simulation templates
-├── static/                # Static files
-│   ├── css/
-│   │   └── style.css      # Main stylesheet
-│   └── js/
-│       ├── main.js        # Main JavaScript
-│       ├── dashboard.js   # Dashboard functionality
-│       ├── timeline.js    # Timeline functionality
-│       └── simulation.js  # Simulation functionality
-└── ww2_intel.db          # SQLite database (created on first run)
-```
-
-## Database Schema
-
-### Models
-
-- **User**: User accounts and authentication
-- **Battle**: Historical battle records with casualties and locations
-- **Operation**: Military operations and campaigns
-- **Resource**: Resource data by nation and date (oil, steel, manpower, GDP, morale)
-- **Territory**: Territorial control data with strategic values
-- **IntelligenceReport**: Intelligence and intercepted messages
-- **Simulation**: User simulation sessions and decisions
-
-## API Endpoints
-
-### Dashboard
-- `GET /dashboard/` - Main dashboard view
-- `GET /dashboard/api/resources` - Resource data
-- `GET /dashboard/api/territories` - Territory control data
-- `GET /dashboard/api/intelligence` - Intelligence reports
-- `GET /dashboard/api/battles` - Battle data
-
-### Timeline
-- `GET /timeline/` - Timeline viewer
-- `GET /timeline/api/events` - Timeline events by year range
-
-### Simulation
-- `GET /simulation/` - Simulation interface
-- `POST /simulation/start` - Start new simulation
-- `POST /simulation/decision` - Make strategic decision
-
-### API
-- `GET /api/stats` - Overall statistics
-
-## Customization
-
-### Adding Historical Data
-
-Edit `seed_data.py` to add more battles, operations, or resources:
-
-```python
-battle = Battle(
-    name='Your Battle Name',
-    start_date=datetime(1942, 1, 1),
-    # ... other fields
-)
-db.session.add(battle)
-```
-
-### Styling
-
-Modify `static/css/style.css` to customize the military theme:
-- Color variables in `:root`
-- Animation timings
-- Layout and spacing
-
-### Map Configuration
-
-Update map settings in `static/js/dashboard.js`:
-- Default view coordinates
-- Tile layer provider
-- Marker styles
-
-## Future Enhancements
-
-Potential features for expansion:
-
-- **Real-time Multiplayer**: WebSocket integration for online simulations
-- **Machine Learning**: AI-powered outcome prediction
-- **3D Maps**: Three.js integration for immersive visualization
-- **Audio**: Background radio chatter and ambient sounds
-- **Advanced Analytics**: More detailed charts and graphs
-- **Export Functionality**: Save simulation results as reports
-
-## Data Sources
-
-The application includes sample historical data. For production use, consider integrating:
-
-- Historical battle databases
-- WW2 casualty records
-- Economic and resource data from the period
-- Declassified intelligence documents
-
-## License
-
-This project is for educational and demonstration purposes.
-
-## Contributing
-
-Contributions are welcome! Areas for improvement:
-
-- Additional historical data
-- Enhanced visualization
-- Performance optimization
-- Mobile responsiveness
-- Accessibility features
-
-## Support
-
-For issues or questions, please check the code documentation or create an issue in the project repository.
-
----
-
-**CLASSIFIED // TOP SECRET // NOFORN**
-
-*"In war, truth is the first casualty." - Aeschylus*
-
+- Existing templates, layout, CSS, and frontend behavior are intentionally preserved.
+- Current CSRF protection is enabled at the extension level, but legacy auth and simulation routes are exempted so the unchanged UI continues to function.
+- The included migration file is a baseline scaffold for the production schema and can be expanded as the historical dataset grows.

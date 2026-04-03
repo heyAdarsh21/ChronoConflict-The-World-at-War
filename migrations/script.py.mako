@@ -1,0 +1,1 @@
+# single-database migration template
